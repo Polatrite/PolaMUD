@@ -1,0 +1,12 @@
+﻿<Window x:Class="MUDClientEssentials.TextInputDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="TextInputWindow" SizeToContent="WidthAndHeight">
+    
+    <StackPanel Orientation="Vertical">        
+        <Label x:Name="instructionsLabel"/>
+        <TextBox x:Name="inputBox" MinWidth="250" Margin="0,10,0,10" KeyDown="inputBox_KeyDown"/>
+        <Button x:Name="okayButton" HorizontalAlignment="Right" Width="100" Click="okayButton_Click">OK</Button>
+    </StackPanel>
+    
+</Window>

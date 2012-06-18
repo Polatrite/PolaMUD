@@ -1,0 +1,91 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace PolaMUD
+{
+	public class Player : Mob
+	{
+		public TelnetConnection Connection;
+
+		public Player()
+		{
+			Global.Players.Add(this);
+		}
+
+        ~Player()
+        {
+            Global.Players.Remove(this);
+        }
+
+        public void iPlayer()
+        {
+            Global.Players.Add(this);
+            base();
+        }
+
+        /// <summary>
+        /// Add a message to the outgoing buffer, sending it to the Player at the next opportunity.
+        /// </summary>
+        /// <param name="message"></param>
+        /// <returns></returns>
+		public override bool SendMessage(string message)
+		{
+            OutgoingBuffer.Enqueue(message);
+
+            return true;
+		}
+
+        /// <summary>
+        /// Flushes the entire outbound buffer to the Player's connection. If the Player is not connected, nothing is done.
+        /// </summary>
+        /// <returns></returns>
+        public bool SendOutgoingBuffer()
+        {
+            if (OutgoingBuffer.Count == 0)
+                return false;
+
+            string message;
+
+            while (true)
+            {
+                if (Connection == null)
+                    return false;
+
+                if (Connection.Writer == null)
+                    return false;
+
+                if (OutgoingBuffer.Count == 0)
+                    break;
+
+                message = OutgoingBuffer.Dequeue();
+
+                try
+                {
+                    if (message.EndsWith("\n\r")) // save bandwidth by clearing color codes only on newlines
+                        Connection.Writer.Write(message + Colors.CLEAR);
+                    else
+                        Connection.Writer.Write(message);
+                }
+                catch (Exception e)
+                {
+                    Connection.Writer = null;
+                    return false;
+                }
+            }
+
+            Connection.Writer.Write("\n\r");
+            Connection.Writer.Write(GetPrompt());
+
+            return true;
+        }
+
+        public string GetPrompt()
+        {
+            string prompt = "(" + Colors.BRIGHT_RED + Health + "/" + MaxHealth + "hp " + Colors.BRIGHT_BLUE + Mana + "/" + MaxMana + "mana" + Colors.CLEAR + ") ";
+
+            return prompt;
+        }
+	}
+}

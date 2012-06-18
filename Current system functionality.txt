@@ -1,0 +1,18 @@
+
+Currently this is what the system supports:
+
+- Full ROM-style command interpreting, including 5.pie 10*point and 'quotes around things' in "multiple varieties"
+
+- Instead of returning string arguments for the code to parse in your command, you can get an argument returned that has a reference to the Thing you desire (a Mob or Obj) that's already been location verified (in your Inventory or in the local Room)
+
+
+- Handles all telnet connectivity (except dropping a link ATM), managing them in one thread per person
+
+
+- Has a GameLoop that handles all timing, similar to ROM it uses "pulses" - although there are 10 pulses per second (also configurable like ROM) per default
+
+- Buffers up all input/output to players and sends it out on each pulse, also like ROM - this reduces overall bandwidth consumption by combining packets
+
+
+- Number of game commands currently supported - directional movement, basic look, who, say, score, and working on combat commands now
+

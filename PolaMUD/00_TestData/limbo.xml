@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<area name="Town">
+	<rooms>
+		<room index="100" name="The Center Square">
+			<desc>You are standing in the bustling Center Square of [town]. The well-kept cobblestone floors sport marvelously crafted padded benches, affording a great place to rest. The covering over top of the square is a series of lattice woodwork, with an abundance of vines and foliage wrapping in and around it.</desc>
+			<exits>
+				<exit name="north" index="101"/>
+				<exit name="south" index="102"/>
+			</exits>
+			<mobresets>
+				<mobreset index="100" maxroom="3" respawn="2"/>
+			</mobresets>
+		</room>
+		<room index="101" name="The City Gardens">
+			<desc>The city gardens show off a very diverse set of plants and trees, with bright colors and vivid, lush greens spread generously throughout. A fountain in the center of the area whispers a quiet babbling as the water falls through the intricately designed statue art that makes up the fountain.</desc>
+			<exits>
+				<exit name="south" index="100"/>
+			</exits>
+		</room>
+		<room index="102" name="Main Street">
+			<desc>The busiest street in town, Main street will take you through all the major shops and sights in the market region of [town]. Crowds of people are all around the city, chatting, buying, selling, and sightseeing. The well-made cobblestone street continues north and south.</desc>
+			<exits>
+				<exit name="north" index="100"/>
+			</exits>
+		</room>
+	</rooms>
+	<mobs>
+		<mob index="100"
+			hp="200"
+			mana="0"
+			exp="5"
+			coins="2"
+			physicalpower="4"
+			magicpower="4"
+		>
+			<name>a beastly fido</name>
+			<handlingname>beastly fido</handlingname>
+			<desc>This terrible, terrible fido may tear your face off!</desc>
+			<roomdesc>A beastly fido is here.</roomdesc>
+			<skills>
+				<skill name="Savage Strike">
+					<skillai randomweight="500" />
+				</skill>
+			</skills>
+		</mob>
+	</mobs>
+</area>

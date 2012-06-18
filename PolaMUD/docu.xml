@@ -1,0 +1,536 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>PolaMUD</name>
+    </assembly>
+    <members>
+        <member name="T:PolaMUD.Thing">
+            <summary>
+            Thing is the parent of just about everything. Mobs, Players, Rooms - they're all Things!
+            </summary>
+        </member>
+        <member name="F:PolaMUD.Thing.IndexNumber">
+            <summary>
+            The global IndexNumber (or vnum) of the Thing.
+            </summary>
+        </member>
+        <member name="F:PolaMUD.Thing.Name">
+            <summary>
+            The name to use for displaying messages related to this Thing.
+            </summary>
+        </member>
+        <member name="P:PolaMUD.Thing.HandlingName">
+            <summary>
+            The name to use for command-matching in the parser.
+            This string is automatically converted to lowercase.
+            </summary>
+        </member>
+        <member name="M:PolaMUD.Mob.#ctor(System.Int32)">
+            <summary>
+            Creates a new template for the specified mob and adds it to the reference table of every mob template. Use Loader.NewMob() to create a new instance of a mob.
+            </summary>
+            <param name="index"></param>
+        </member>
+        <member name="M:PolaMUD.Mob.Move(PolaMUD.Room)">
+            <summary>
+            Move the Mob from current Room to destination Room, sending no messages.
+            </summary>
+            <param name="destination">The destination Room</param>
+            <returns></returns>
+        </member>
+        <member name="M:PolaMUD.Mob.Move(PolaMUD.Room,System.String)">
+            <summary>
+            Move the Mob from current room to destination room, sending direction-based messages 
+            if provided.
+            </summary>
+            <param name="destination">The destination Room</param>
+            <param name="direction">The direction the Mob is moving</param>
+            <returns></returns>
+        </member>
+        <member name="M:PolaMUD.Mob.SendMessage(System.String)">
+            <summary>
+            Does nothing for Mobs.
+            </summary>
+            <param name="message"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PolaMUD.Mob.SendMessage(System.String,System.String)">
+            <summary>
+            Does nothing for Mobs.
+            </summary>
+            <param name="message"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PolaMUD.Mob.RewardExperience(System.Decimal)">
+            <summary>
+            Reward the Mob with experience, potentially causing it to gain 
+            (TODO: or lose) levels.
+            </summary>
+            <param name="reward"></param>
+        </member>
+        <member name="M:PolaMUD.Mob.AddCoins(System.Decimal)">
+            <summary>
+            Add coins to the Mob
+            </summary>
+            <param name="reward"></param>
+        </member>
+        <member name="M:PolaMUD.Mob.LevelUp">
+            <summary>
+            Cause the Mob to gain a level unconditionally.
+            </summary>
+        </member>
+        <member name="M:PolaMUD.Mob.Delete">
+            <summary>
+            Remove all references to this Mob, preparing it for garbage collection.
+            </summary>
+        </member>
+        <member name="F:PolaMUD.Main.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:PolaMUD.Main.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:PolaMUD.Main.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="M:PolaMUD.InstanceManager.NewInstance(PolaMUD.Player,System.Int32)">
+            <summary>
+            Creates a new Instance belonging to the specified Player with the specified Quantity of indexes reserved.
+            </summary>
+            <param name="player"></param>
+            <param name="quantity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PolaMUD.InstanceManager.RemoveInstance(PolaMUD.Player)">
+            <summary>
+            Removes the Instance belonging to Player, freeing all indexes belonging to the instance
+            </summary>
+            <param name="player"></param>
+            <returns></returns>
+        </member>
+        <member name="F:PolaMUD.Skill.PreLag">
+            <summary>
+            Lag that occurs after PreAction(), but before Action()
+            </summary>
+        </member>
+        <member name="F:PolaMUD.Skill.PostLag">
+            <summary>
+            Lag that occurs after Action(), but before PostAction()
+            </summary>
+        </member>
+        <member name="M:PolaMUD.Skill.PreAction(PolaMUD.Mob,System.String)">
+            <summary>
+            This is executed at the very moment the user uses the ability
+            </summary>
+            <param name="user"></param>
+            <param name="text"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PolaMUD.Skill.Action(PolaMUD.Mob,System.String)">
+            <summary>
+            This is executed at a specific time based on the PreLag and PostLag variables
+            </summary>
+            <param name="user"></param>
+            <param name="text"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PolaMUD.Skill.PostAction(PolaMUD.Mob,System.String)">
+            <summary>
+            This is executed at the very end of the of the action, after both PreLag and PostLag
+            </summary>
+            <param name="user"></param>
+            <param name="text"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PolaMUD.Program.Main">
+            <summary>
+            The main entry point for the application.
+            </summary>
+        </member>
+        <member name="T:PolaMUD.Server">
+            <summary>
+            This class is responsible for booting up the connection manager, and subsequently the world.
+            Once the Server is running, players will be able to connect on the specified port. Each
+            player will execute on their own thread, which will then be managed under thread-safe
+            standards - the rest of the server operations will run as a single thread game loop.
+            </summary>
+        </member>
+        <member name="T:PolaMUD.SearchLocations">
+            <summary>
+            Singleton class. An enumeration of different types of parameters that would be used for 
+            matching arguments for commands. 
+            For example, a "get" command may check for Objects in Room. A "guild kick" command may 
+            check for Players in Global.
+            </summary>
+        </member>
+        <member name="T:PolaMUD.Colors">
+            <summary>
+            Singleton class. Contains the ANSI color codes for all supported colors. 
+            Note to MUD administrators: only use blink when you're PUNISHING players, otherwise 
+            NEVER USE BLINK. It's damn annoying. (Which is why our jail is a blinking deathtrap 
+            you have to run frantically around until your sentence is up. >=)
+            </summary>
+        </member>
+        <member name="M:PolaMUD.Player.SendMessage(System.String)">
+            <summary>
+            Add a message to the outgoing buffer, sending it to the Player at the next opportunity.
+            </summary>
+            <param name="message"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PolaMUD.Player.SendOutgoingBuffer">
+            <summary>
+            Flushes the entire outbound buffer to the Player's connection. 
+            If the Player is not connected, nothing is done.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PolaMUD.Parser.GetArgument(System.String,System.Int32,PolaMUD.Mob,System.Type,System.Int32)">
+            <summary>
+            Retrieves the appropriate Argument from the given input string. 
+            Argument's reference object is automatically retrieved based on the Type and 
+            SearchLocations enumeration provided.
+            </summary>
+            <param name="line">The input string</param>
+            <param name="index">The index of the desired argument (1 is always the command itself)</param>
+            <param name="user">The user Mob, for retrieving references based on this Mob's state</param>
+            <param name="reference">The Type to search for (Mob, Player, etc.)</param>
+            <param name="searchLocation">A SearchLocations enumeration to use in finding the reference</param>
+            <returns></returns>
+        </member>
+        <member name="M:PolaMUD.Parser.GetArgument(System.String,System.Int32)">
+            <summary>
+            Retrieves the appropriate argument from the given input string, optionally retrieving 
+            an object reference based on what you're looking for (Player, Room, etc.)
+            </summary>
+            <param name="line">The input string</param>
+            <param name="index">The index of the desired argument (1 is always the command itself)</param>
+            <returns></returns>
+        </member>
+        <member name="M:PolaMUD.Parser.GetStringArgument(System.String,System.Int32)">
+            <summary>
+            Retrieves a string argument from the given input string. This argument should always 
+            be the last argument in the line, as this will retrieve the rest of the input string 
+            after all previous arguments.
+            </summary>
+            <param name="line">The input string</param>
+            <param name="index">The index of the desired argument (1 is always the command itself)</param>
+            <returns></returns>
+        </member>
+        <member name="M:PolaMUD.Parser.GetArgumentString(System.String,System.Int32,System.Boolean)">
+            <summary>
+            This returns the string that composes an entire argument, including handling prefixes 
+            such as 3. or 5*  This is for internal use. 
+            External calls to the parser should use GetArgument.
+            </summary>
+            <param name="line">The input string</param>
+            <param name="index">The index of the desired argument (1 is always the command itself)</param>
+            <returns></returns>
+        </member>
+        <member name="M:PolaMUD.Parser.Interpret(PolaMUD.TelnetConnection,System.String)">
+            <summary>
+            Thread-safe callback from each TelnetConnection, parsing input. 
+            This function is timed internally by PulseTimer().
+            </summary>
+            <param name="conn">The TelnetConnection the input is coming from</param>
+            <param name="line">The input string</param>
+        </member>
+        <member name="M:PolaMUD.Parser.LoginInterpret(PolaMUD.TelnetConnection,System.String)">
+            <summary>
+            If our connection doesn't have a Player yet, everything is sent here to handle 
+            login and Player creation.
+            </summary>
+            <param name="conn">The TelnetConnection the input is coming from</param>
+            <param name="line">The input string</param>
+        </member>
+        <member name="M:PolaMUD.Affects.Bleeding.#ctor(PolaMUD.Mob,PolaMUD.Mob,System.Int32,System.Int32)">
+            <summary>
+            A bleed affect that deals damage every round.
+            </summary>
+            <param name="afflicted"></param>
+            <param name="owner"></param>
+            <param name="duration"></param>
+            <param name="tickdamage"></param>
+        </member>
+        <member name="M:PolaMUD.Affects.Burning.#ctor(PolaMUD.Mob,PolaMUD.Mob,System.Int32,System.Int32)">
+            <summary>
+            A bleed affect that deals damage every round.
+            </summary>
+            <param name="afflicted"></param>
+            <param name="owner"></param>
+            <param name="duration"></param>
+            <param name="tickdamage"></param>
+        </member>
+        <member name="M:PolaMUD.Affects.Freezing.#ctor(PolaMUD.Mob,PolaMUD.Mob,System.Int32)">
+            <summary>
+            A bleed affect that deals damage every round.
+            </summary>
+            <param name="afflicted"></param>
+            <param name="owner"></param>
+            <param name="duration"></param>
+            <param name="tickdamage"></param>
+        </member>
+        <member name="M:PolaMUD.Affects.Blind.#ctor(PolaMUD.Mob,PolaMUD.Mob,System.Int32)">
+            <summary>
+            A bleed affect that deals damage every round.
+            </summary>
+            <param name="afflicted"></param>
+            <param name="owner"></param>
+            <param name="duration"></param>
+            <param name="tickdamage"></param>
+        </member>
+        <member name="M:PolaMUD.Affects.Plague.#ctor(PolaMUD.Mob,PolaMUD.Mob,System.Int32,System.Int32)">
+            <summary>
+            A bleed affect that deals damage every round.
+            </summary>
+            <param name="afflicted"></param>
+            <param name="owner"></param>
+            <param name="duration"></param>
+            <param name="tickdamage"></param>
+        </member>
+        <member name="M:PolaMUD.Affects.Poison.#ctor(PolaMUD.Mob,PolaMUD.Mob,System.Int32,System.Int32)">
+            <summary>
+            A bleed affect that deals damage every round.
+            </summary>
+            <param name="afflicted"></param>
+            <param name="owner"></param>
+            <param name="duration"></param>
+            <param name="tickdamage"></param>
+        </member>
+        <member name="M:PolaMUD.ObjectCloner.Clone``1(``0)">
+            <summary>
+            Perform a deep Copy of the object.
+            </summary>
+            <typeparam name="T">The type of object being copied.</typeparam>
+            <param name="source">The object instance to copy.</param>
+            <returns>The copied object.</returns>
+        </member>
+        <member name="T:PolaMUD.Properties.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:PolaMUD.Properties.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:PolaMUD.Properties.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="M:PolaMUD.GameLoop.PulseTimerEvent(System.Object,System.Timers.ElapsedEventArgs)">
+            <summary>
+            A wrapper for the PulseTimer event. Do not use this function for anything but calling
+            PulseTimer().
+            </summary>
+            <param name="state"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:PolaMUD.GameLoop.TickTimer">
+            <summary>
+            Signifies a game tick. This function is timed internally by PulseTimer().
+            </summary>
+        </member>
+        <member name="M:PolaMUD.GameLoop.RoundTimer">
+            <summary>
+            Signifies a combat round. This function is timed internally by PulseTimer().
+            </summary>
+        </member>
+        <member name="M:PolaMUD.GameLoop.PulseTimer">
+            <summary>
+            Called every game pulse, handling player I/O buffers and other events, as well as timing
+            the Round and Tick Timers
+            </summary>
+        </member>
+        <member name="M:PolaMUD.GameLoop.AddEvent(System.Object,System.Int32,System.String,System.Object[])">
+            <summary>
+            Adds an event to the timing stack. This will execute the actor's specified method after the delay. The method will be given the provided arguments.
+            </summary>
+            <param name="actor">The actor object which will receive the method call</param>
+            <param name="delay">The delay in pulses (default)</param>
+            <param name="method"></param>
+            <param name="arguments"></param>
+        </member>
+        <member name="T:PolaMUD.Directions">
+            <summary>
+            Directions a character can travel
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "T:PolaMUD.MessageVector" -->
+        <member name="M:PolaMUD.Commands.#ctor">
+            <summary>
+            Singleton class. Creating this loads all commands into the parser. 
+            TODO: Safe-lock this so that this class can be disposed and re-created at runtime 
+            to "reload" commands... for the ability to load commands from XML later, instead of hardcoded.)
+            </summary>
+        </member>
+        <member name="M:PolaMUD.Combat.GetOneHit(PolaMUD.Mob,PolaMUD.Mob,PolaMUD.Skill)">
+            <summary>
+            Returns the damage of the provided skill used by the attacker against the target, performing all necessary damage calculations
+            </summary>
+            <param name="attacker"></param>
+            <param name="target"></param>
+            <param name="skill"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PolaMUD.Combat.OneHit(PolaMUD.Mob,PolaMUD.Mob)">
+            <summary>
+            Execute one physical combat strike between the attacker and the target,
+            dealing damage and notifying the room
+            </summary>
+            <param name="attacker"></param>
+            <param name="target"></param>
+        </member>
+        <member name="M:PolaMUD.Combat.OneHeal(PolaMUD.Mob,PolaMUD.Mob,PolaMUD.Skill)">
+            <summary>
+            Heal one target notifying the room
+            </summary>
+            <param name="healer"></param>
+            <param name="target"></param>
+            <param name="skill"></param>
+        </member>
+        <member name="M:PolaMUD.Combat.SetTargetEnemies(PolaMUD.Mob,PolaMUD.Mob)">
+            <summary>
+            Use to ensure that the mobs are both targeting each other if they don't currently have targets.
+            </summary>
+            <param name="mob1"></param>
+            <param name="mob2"></param>
+        </member>
+        <member name="M:PolaMUD.Combat.SetTargetAlly(PolaMUD.Mob,PolaMUD.Mob)">
+            <summary>
+            Use to ensure that the mobs are both targeting each other if they don't currently have targets.
+            </summary>
+            <param name="mob1"></param>
+            <param name="mob2"></param>
+        </member>
+        <member name="M:PolaMUD.Combat.CheckValidTarget(PolaMUD.Mob,PolaMUD.Mob)">
+            <summary>
+            Check if one mob can successfully attack the other
+            </summary>
+            <param name="attacker"></param>
+            <param name="target"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PolaMUD.Communications.NarrateAction(PolaMUD.Mob,PolaMUD.Mob,System.String,System.String)">
+            <summary>
+            Narrates a single action, calling the DeliverMessage method for
+            MessageVectors Character, Target, and Third_Party.  This can be
+            used if the message does not change at all between these three calls,
+            save for the arguments of who-receives-what.
+            
+            Maybe. :D
+            
+            Work in progress.
+            </summary>
+            <param name="actor"></param>
+            <param name="target"></param>
+            <param name="message"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PolaMUD.Communications.DeliverMessage(PolaMUD.Mob,PolaMUD.Mob,PolaMUD.MessageVector,System.String,System.String)">
+            <summary>
+            Delivers a single message, calling the SendMessage method of all appropriate
+            Mobs in both the actor's and target's rooms ("appropriate" determined by
+            messageType).
+            </summary>
+            <param name="actor">Mob performing the narrated action (if any!)</param>
+            <param name="target">Mob receiving the narrated action (if any!)</param>
+            <param name="messageType">Vector for the message (who it is sent to)</param>
+            <returns>false if any error conditions are met or any messages fail to send</returns>
+        </member>
+        <member name="M:PolaMUD.Communications.formatMessage(PolaMUD.Mob,PolaMUD.Mob,System.String,System.String)">
+            <summary>
+            Formats any $ arguments contained within a message string.
+            </summary>
+            <param name="actor">Mob performing the action</param>
+            <param name="target">Mob receiving the action</param>
+            <param name="message">Message string to format</param>
+        </member>
+        <member name="M:PolaMUD.Room.#ctor(System.Int32)">
+            <summary>
+            Creates a new room with the specified IndexNumber and adds it to Global.RoomTable.
+            </summary>
+            <param name="number"></param>
+        </member>
+        <member name="M:PolaMUD.Room.ToString">
+            <summary>
+            Displays the short descriptive string of the room.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PolaMUD.Room.Load(System.Xml.XmlNode)">
+            <summary>
+            Loads a new room from the provided XmlNode.
+            </summary>
+            <param name="room"></param>
+        </member>
+        <member name="M:PolaMUD.Room.Load(System.Xml.XmlNode,PolaMUD.Area)">
+            <summary>
+            Loads a new room from the provided XmlNode while automatically setting the area that the room belongs to.
+            </summary>
+            <param name="room"></param>
+            <param name="area"></param>
+        </member>
+        <member name="M:PolaMUD.Room.Add(PolaMUD.Thing)">
+            <summary>
+            Add a Thing to the Room, sending no messages.
+            </summary>
+            <param name="thing">Thing to be added</param>
+            <returns></returns>
+        </member>
+        <member name="M:PolaMUD.Room.Add(PolaMUD.Thing,System.String)">
+            <summary>
+            Add a Thing to the Room, sending the given entrance message.
+            </summary>
+            <param name="thing">Thing to be added</param>
+            <param name="message">Message to the Room</param>
+            <returns></returns>
+        </member>
+        <member name="M:PolaMUD.Room.Remove(PolaMUD.Thing)">
+            <summary>
+            Remove a Thing from the Room, sending no messages.
+            </summary>
+            <param name="thing">Thing to be removed</param>
+            <returns></returns>
+        </member>
+        <member name="M:PolaMUD.Room.Remove(PolaMUD.Thing,System.String)">
+            <summary>
+            Remove a Thing from the Room, sending the given exit message.
+            </summary>
+            <param name="thing">Thing to be removed</param>
+            <param name="message">Message to the room</param>
+            <returns></returns>
+        </member>
+        <member name="M:PolaMUD.Room.GetThing(System.Type,System.String)">
+            <summary>
+            Get a Thing from the room with the provided Type (Mob, Player, etc.) that matches Name.
+            </summary>
+            <param name="reference">The Type to search for (Mob, Player, etc.)</param>
+            <param name="name">Name to match</param>
+            <returns></returns>
+        </member>
+        <member name="M:PolaMUD.Room.Display(PolaMUD.Player)">
+            <summary>
+            Show the Room to Player, including all contents.
+            </summary>
+            <param name="player"></param>
+        </member>
+        <member name="M:PolaMUD.Room.SendMessage(System.String,System.String)">
+            <summary>
+            Send a message to all valid Mobs in the Room.
+            </summary>
+            <param name="message"></param>
+        </member>
+    </members>
+</doc>
