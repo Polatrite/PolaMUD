@@ -5,14 +5,21 @@ using System.Text;
 
 namespace PolaMUD
 {
-	public class Player : Mob
+	public partial class Player : Mob
 	{
 		public TelnetConnection Connection;
+        private string saltedPassword;
+
+        // Change this once persistent characters are in.
+        private string salt = "ABC123";
 
 		public Player()
 		{
 			Global.Players.Add(this);
             Skills.Add("Autoattack", new SkillInstance(Global.SkillTable["Autoattack"]));
+
+            saltedPassword = Authentication.GenerateSaltedHash("1234", salt);
+            Console.WriteLine("Salted password is " + saltedPassword);
 		}
 
         ~Player()
@@ -24,6 +31,25 @@ namespace PolaMUD
         {
             Global.Players.Add(this);
             
+        }
+
+        public bool Authenticate(string inputPassword)
+        {
+            bool retVal = false;
+
+            string inputSaltedPassword = Authentication.GenerateSaltedHash(inputPassword, salt);
+
+            SendMessage("Your input was [" + inputSaltedPassword + "] compared to stored [" + saltedPassword + "]\n\r");
+            if (saltedPassword == inputSaltedPassword)
+            {
+                retVal = true;
+            }
+            else
+            {
+                retVal = false;
+            }
+
+            return retVal;
         }
 
         /// <summary>
@@ -121,32 +147,6 @@ namespace PolaMUD
             }
 
             return prompt;
-        }
-
-        public void HandleClientMenu(string command)
-        {
-            Argument arg1 = Parser.GetArgument(command, 1);
-            Skill skill = null;
-            switch (arg1.Text)
-            {
-                case "telnet":
-                    ClientType = ClientType.Telnet;
-                    CombatType = CombatType.Realtime;
-                    break;
-                case "full":
-                    ClientType = ClientType.Full;
-                    CombatType = CombatType.Realtime;
-                    break;
-                case "android":
-                    ClientType = ClientType.Android;
-                    CombatType = CombatType.TurnBased;
-                    break;
-            }
-
-            Menu = null;
-
-            SendMessage("Thanks, " + Name + ". Please enjoy your stay.\n\r\n\r");
-            Room = Global.Limbo.Add(this, this.Name + " has arrived.\n\r");
         }
 
         public void HandleTurnBattleMenu(string command)

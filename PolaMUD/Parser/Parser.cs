@@ -6,11 +6,14 @@ using System.Reflection;
 
 namespace PolaMUD
 {
-	public static class Parser
+	public static partial class Parser
 	{
+        // More of this partial class exists at:
+        // Communications/Login.cs
+        // Communications/Logout.cs
 
         /// <summary>
-        /// Retrieves the appropriate Argument from the given input string. 
+        /// Retrieves tshe appropriate Argument from the given input string. 
         /// Argument's reference object is automatically retrieved based on the Type and 
         /// SearchLocations enumeration provided.
         /// </summary>
@@ -224,32 +227,69 @@ namespace PolaMUD
                 }
                 else
                 {
-                    // Mosey through all the commands
-                    foreach (KeyValuePair<string, Command> pair in player.Menu.List)
+                    if (player.Menu is DynamicMenu)
                     {
-                        // Match the command, allowing shorthand abbreviation (e.g. south = so = s)
-                        // Note: Commands are parsed in the order they are added to the list in 
-                        //   Commands.cs, to give commands priority, add them to the top of the 
-                        //   list. (e.g. s will always match south, because it always comes before 
-                        //   score)
-                        if (pair.Key.StartsWith(commandText.ToLower()))
+                        // Mosey through all the commands
+                        DynamicMenu menu = (DynamicMenu)player.Menu;
+                        foreach (KeyValuePair<string, Command> pair in menu.List)
                         {
-                            Command command = pair.Value;
-                            if (command != null)
+                            // Match the command, allowing shorthand abbreviation (e.g. south = so = s)
+                            // Note: Commands are parsed in the order they are added to the list in 
+                            //   Commands.cs, to give commands priority, add them to the top of the 
+                            //   list. (e.g. s will always match south, because it always comes before 
+                            //   score)
+                            if (pair.Key.StartsWith(commandText.ToLower()))
                             {
-                                // Voodoo reflection magic to execute the method that the command 
-                                //   wants to execute. Passes the Player itself, as well as the 
-                                //   input string to that method.
-                                // TODO: This could be improved for effeciency by retrieving the 
-                                //   method once on load and storing it as a reference - possibly 
-                                //   a delegate? I'm not too sure. -DWE 2009/08/04
-                                Type type = player.Menu.Caller.GetType();
-                                MethodInfo method = type.GetMethod(player.Menu.CallbackMethod);
-                                method.Invoke(player.Menu.Caller, new object[] { line });
-                                return;
+                                Command command = pair.Value;
+                                if (command != null)
+                                {
+                                    // Voodoo reflection magic to execute the method that the command 
+                                    //   wants to execute. Passes the Player itself, as well as the 
+                                    //   input string to that method.
+                                    // TODO: This could be improved for effeciency by retrieving the 
+                                    //   method once on load and storing it as a reference - possibly 
+                                    //   a delegate? I'm not too sure. -DWE 2009/08/04
+                                    Type type = player.Menu.Caller.GetType();
+                                    MethodInfo method = type.GetMethod(player.Menu.CallbackMethod);
+                                    method.Invoke(player.Menu.Caller, new object[] { line });
+                                    return;
+                                }
                             }
                         }
                     }
+                    else if (player.Menu is InputNumberMenu)
+                    {
+                        double number;
+                        bool valid = double.TryParse(commandText, out number);
+                        if (valid)
+                        {
+                            Type type = player.Menu.Caller.GetType();
+                            MethodInfo method = type.GetMethod(player.Menu.CallbackMethod);
+                            method.Invoke(player.Menu.Caller, new object[] { line });
+                            return;
+                        }
+                        else
+                        {
+                            conn.GetPlayer().SendMessage("That is not a valid number.\n\r");
+                            return;
+                        }
+
+
+                    }
+                    else if (player.Menu is InputStringMenu)
+                    {
+                        Type type = player.Menu.Caller.GetType();
+                        MethodInfo method = type.GetMethod(player.Menu.CallbackMethod);
+                        method.Invoke(player.Menu.Caller, new object[] { line });
+                        return;
+                    }
+
+
+                    if (player.Menu.DisplayMessage != "" && player.Menu.Caller is Player)
+                    {
+                        ((Player)player.Menu.Caller).SendMessage(player.Menu.DisplayMessage);
+                    }
+                    return;
                 }
 
 				conn.GetPlayer().SendMessage("Huh? \"" + commandText + "\" isn't a command!\n\r");
@@ -270,42 +310,5 @@ namespace PolaMUD
 			}
         }
 
-        /// <summary>
-        /// If our connection doesn't have a Player yet, everything is sent here to handle 
-        /// login and Player creation.
-        /// </summary>
-        /// <param name="conn">The TelnetConnection the input is coming from</param>
-        /// <param name="line">The input string</param>
-        static public void LoginInterpret(TelnetConnection conn, string line)
-        {
-        	Player player = new Player();
-            player.MaxHealth = 200;
-            player.Health = 200;
-            player.PhysicalPower = 10;
-            player.MagicPower = 10;
-            player.Name = line;
-            player.HandlingName = line;
-			player.Connection = conn;
-
-            foreach (Skill skill in Global.SkillTable.Values)
-            {
-                if (skill.Name == "Autoattack")
-                    continue;
-                player.Skills.Add(skill.Name, new SkillInstance(skill));
-            }
-
-            player.SkillSlots.Insert(0, player.Skills["Backstab"]);
-            player.SkillSlots.Insert(1, player.Skills["Flurry"]);
-            player.SkillSlots.Insert(2, player.Skills["Savage Strike"]);
-            conn.SetPlayer(player);
-
-            DynamicMenu menu = new DynamicMenu(player, "HandleClientMenu");
-            menu.List.Add("telnet", new Command("telnet", "", false, "Sets your client type as a telnet connection (telnet, terminal, MUD client)"));
-            menu.List.Add("full", new Command("full", "", false, "Sets your client type as the official rich client"));
-            menu.List.Add("android", new Command("android", "", false, "Sets your client type as an Android phone"));
-            player.Menu = menu;
-            player.SendMessage("Please select your client type:\n\r- telnet\n\r- full\n\r- android\n\r");
-
-        }
 	}
 }

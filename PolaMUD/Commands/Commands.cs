@@ -35,7 +35,7 @@ namespace PolaMUD
 
 
 
-    public partial class Commands : CommandMenu
+    public partial class Commands
     {
         public new Dictionary<string, Command> List = new Dictionary<string, Command>();
 

@@ -91,17 +91,23 @@
     <Compile Include="Combat\TurnBattle.cs" />
     <Compile Include="Commands\DynamicMenu.cs" />
     <Compile Include="Commands\CommandMenu.cs" />
+    <Compile Include="Commands\InputNumberMenu.cs" />
+    <Compile Include="Commands\InputStringMenu.cs" />
     <Compile Include="Commands\MovementCommands.cs" />
     <Compile Include="Communications\Colors.cs" />
     <Compile Include="Communications\Communications.cs" />
+    <Compile Include="Communications\Login.cs" />
     <Compile Include="Communications\TelnetConnection.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="ContentGenerators\AreaLittleMan.cs" />
     <Compile Include="ContentGenerators\RoomStyles.cs" />
     <Compile Include="GameLoop.cs" />
     <Compile Include="Global.cs" />
+    <Compile Include="Handlers\Authentication.cs" />
     <Compile Include="Handlers\ObjectCloner.cs" />
     <Compile Include="Handlers\RandomNumber.cs" />
+    <Compile Include="Items\Item.cs" />
+    <Compile Include="Items\ItemComponentTypes.cs" />
     <Compile Include="Main.cs">
       <SubType>Form</SubType>
     </Compile>

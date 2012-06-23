@@ -79,7 +79,7 @@ namespace PolaMUD
         [NonSerialized]
         public Queue<string> OutgoingBuffer = new Queue<string>();
         [NonSerialized]
-        public DynamicMenu Menu;
+        public CommandMenu Menu;
 
 		public Mob()
 		{

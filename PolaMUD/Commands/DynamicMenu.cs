@@ -5,16 +5,21 @@ using System.Text;
 
 namespace PolaMUD
 {
+    /// <summary>
+    /// Overrides normal command parsing to display a menu allowing the user to select a predefined menu option.
+    /// </summary>
     public class DynamicMenu : CommandMenu
     {
         public Dictionary<string, Command> List = new Dictionary<string, Command>();
-        public object Caller;
-        public string CallbackMethod;
 
         public DynamicMenu(object caller, string callbackMethod)
+            : base(caller, callbackMethod)
         {
-            Caller = caller;
-            CallbackMethod = callbackMethod;
+        }
+
+        public DynamicMenu(object caller, string callbackMethod, string displayMessage)
+            : base(caller, callbackMethod, displayMessage)
+        {
         }
     }
 }

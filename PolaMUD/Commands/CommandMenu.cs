@@ -7,6 +7,26 @@ namespace PolaMUD
 {
     public abstract class CommandMenu
     {
-        public Dictionary<string, Command> List = new Dictionary<string, Command>();
+        public object Caller;
+        public string CallbackMethod;
+        public string DisplayMessage = "";
+
+        public CommandMenu(object caller, string callbackMethod)
+        {
+            Caller = caller;
+            CallbackMethod = callbackMethod;
+        }
+
+        public CommandMenu(object caller, string callbackMethod, string displayMessage)
+        {
+            Caller = caller;
+            CallbackMethod = callbackMethod;
+            DisplayMessage = displayMessage;
+
+            if (caller is Player)
+            {
+                ((Player)caller).SendMessage(displayMessage);
+            }
+        }
     }
 }

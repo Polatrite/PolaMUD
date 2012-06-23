@@ -59,7 +59,7 @@ namespace PolaMUD
             
             Global.Log("Loading areas...\n");
             Area area = new Area();
-            area.Load("limbo.xml");
+            area.Load("00_TestData\\limbo.xml");
             new Areas.TestArea();
 			Global.Log("done!\n");
             
