@@ -9,9 +9,9 @@ namespace PolaMUD
 	{
 		public bool CommandMoveNorth(Player user, Command command, string text)
 		{
-			if (user.Room.Exits.ContainsKey(Directions.North))
+			if (((Room)user.Location).Exits.ContainsKey(Directions.North))
 			{
-				user.Move(Global.GetRoom(user.Room.Exits[Directions.North].ToRoom), "north");
+                user.Move(Global.GetRoom(((Room)user.Location).Exits[Directions.North].ToRoom), "north");
 			}
 			else
 			{
@@ -24,9 +24,9 @@ namespace PolaMUD
 
 		public bool CommandMoveSouth(Player user, Command command, string text)
 		{
-			if (user.Room.Exits.ContainsKey(Directions.South))
+			if (((Room)user.Location).Exits.ContainsKey(Directions.South))
 			{
-                user.Move(Global.GetRoom(user.Room.Exits[Directions.South].ToRoom), "south");
+                user.Move(Global.GetRoom(((Room)user.Location).Exits[Directions.South].ToRoom), "south");
 			}
 			else
 			{
@@ -39,9 +39,9 @@ namespace PolaMUD
 
 		public bool CommandMoveEast(Player user, Command command, string text)
 		{
-			if (user.Room.Exits.ContainsKey(Directions.East))
+			if (((Room)user.Location).Exits.ContainsKey(Directions.East))
 			{
-                user.Move(Global.GetRoom(user.Room.Exits[Directions.East].ToRoom), "east");
+                user.Move(Global.GetRoom(((Room)user.Location).Exits[Directions.East].ToRoom), "east");
 			}
 			else
 			{
@@ -54,9 +54,9 @@ namespace PolaMUD
 
 		public bool CommandMoveWest(Player user, Command command, string text)
 		{
-			if (user.Room.Exits.ContainsKey(Directions.West))
+			if (((Room)user.Location).Exits.ContainsKey(Directions.West))
 			{
-                user.Move(Global.GetRoom(user.Room.Exits[Directions.West].ToRoom), "west");
+                user.Move(Global.GetRoom(((Room)user.Location).Exits[Directions.West].ToRoom), "west");
 			}
 			else
 			{
@@ -69,9 +69,9 @@ namespace PolaMUD
 
 		public bool CommandMoveUp(Player user, Command command, string text)
 		{
-			if (user.Room.Exits.ContainsKey(Directions.Up))
+			if (((Room)user.Location).Exits.ContainsKey(Directions.Up))
 			{
-                user.Move(Global.GetRoom(user.Room.Exits[Directions.Up].ToRoom), "up");
+                user.Move(Global.GetRoom(((Room)user.Location).Exits[Directions.Up].ToRoom), "up");
 			}
 			else
 			{
@@ -84,9 +84,9 @@ namespace PolaMUD
 
 		public bool CommandMoveDown(Player user, Command command, string text)
 		{
-			if (user.Room.Exits.ContainsKey(Directions.Down))
+			if (((Room)user.Location).Exits.ContainsKey(Directions.Down))
 			{
-                user.Move(Global.GetRoom(user.Room.Exits[Directions.Down].ToRoom), "down");
+                user.Move(Global.GetRoom(((Room)user.Location).Exits[Directions.Down].ToRoom), "down");
 			}
 			else
 			{

@@ -32,7 +32,7 @@ namespace PolaMUD
             switch (searchLocation)
             {
                 case SearchLocations.Room:
-                    argument.Reference = user.Room.GetThing(reference, argument.Text);
+                    argument.Reference = ((Room)user.Location).GetThing(reference, argument.Text);
                     break;
                 default:
                     break;

@@ -43,7 +43,7 @@ namespace PolaMUD
         /// </summary>
         void TickTimer()
         {
-            Global.SendToAll("Tick!\n\r", "");
+            //Global.SendToAll("Tick!\n\r", "");
             Ticks++;
 
             DecrementEvents(TickEvents);

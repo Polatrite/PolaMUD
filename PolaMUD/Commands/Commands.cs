@@ -106,7 +106,7 @@ namespace PolaMUD
             }
             if (Parser.GetArgument(text, 2).Text == "map")
             {
-                Area area = user.Room.Area;
+                Area area = ((Room)user.Location).Area;
 
             }
             if (Parser.GetArgument(text, 2).Text == "instance")
@@ -147,7 +147,7 @@ namespace PolaMUD
         {
             text = Parser.GetStringArgument(text, 2).Text;
 
-            foreach (Player player in user.Room.Contents)
+            foreach (Player player in ((Room)user.Location).Contents)
             {
                 player.SendMessage(Colors.GREEN + user.Name + " says '" + text + "'\n\r", "dupe");
             }
@@ -161,7 +161,7 @@ namespace PolaMUD
             {
                 // do some crap for arguments here
             }
-            user.Room.Display(user);
+            ((Room)user.Location).Display(user);
 
             return true;
         }

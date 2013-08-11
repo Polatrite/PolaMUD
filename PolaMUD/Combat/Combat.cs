@@ -191,12 +191,12 @@ namespace PolaMUD
 				{
 					damMessage = skill.UseMessage;
 				}
-				target.Room.SendMessage(attacker.Name + " " + damMessage + " " + target.Name + "! (" + damage + ")\n\r", "dupe");
+                ((Room)target.Location).SendMessage(attacker.Name + " " + damMessage + " " + target.Name + "! (" + damage + ")\n\r", "dupe");
 				Damage(attacker, target, damage);
 			}
 			else
 			{
-				target.Room.SendMessage(attacker.Name + " misses " + target.Name + ". (-)\n\r", "dupe");
+                ((Room)target.Location).SendMessage(attacker.Name + " misses " + target.Name + ". (-)\n\r", "dupe");
 			}
 		}
 
@@ -366,7 +366,7 @@ namespace PolaMUD
 			{
 				damMessage = skill.UseMessage;
 			}
-			target.Room.SendMessage(attacker.Name + " " + damMessage + " " + target.Name + "! + " + heal + " +\n\r", "dupe");
+            ((Room)target.Location).SendMessage(attacker.Name + " " + damMessage + " " + target.Name + "! + " + heal + " +\n\r", "dupe");
 			Heal(attacker, target, heal);
 		}
 
@@ -418,7 +418,7 @@ namespace PolaMUD
 		{
 			if (type == TargetType.Enemy)
 			{
-				if (attacker.Room == null)
+                if (((Room)attacker.Location) == null)
 				{
 					attacker.TargetEnemy = null;
 					return false;
@@ -428,14 +428,14 @@ namespace PolaMUD
 					attacker.TargetEnemy = null;
 					return false;
 				}
-				if (target.Room == null)
+                if (((Room)target.Location) == null)
 				{
 					attacker.TargetEnemy = null;
 					target.TargetEnemy = null;
 					return false;
 				}
 
-				if (attacker.Room != target.Room)
+                if (((Room)attacker.Location) != ((Room)target.Location))
 				{
 					attacker.TargetEnemy = null;
 					target.TargetEnemy = null;

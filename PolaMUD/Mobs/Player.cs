@@ -11,7 +11,7 @@ namespace PolaMUD
         private string saltedPassword;
 
         // Change this once persistent characters are in.
-        private string salt = "ABC123";
+        private string salt = "pola";
 
 		public Player()
 		{

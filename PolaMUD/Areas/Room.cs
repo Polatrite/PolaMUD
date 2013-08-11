@@ -8,7 +8,6 @@ namespace PolaMUD
 {
 	public class Room : Thing
 	{
-		public List<object> Contents = new List<object>();
 		public Area Area;
 		public string Description;
 		public Terrain Terrain;
@@ -102,64 +101,7 @@ namespace PolaMUD
             Load(room);
         }
 
-        /// <summary>
-        /// Add a Thing to the Room, sending no messages.
-        /// </summary>
-        /// <param name="thing">Thing to be added</param>
-        /// <returns></returns>
-        public Room Add(Thing thing)
-        {
-            return Add(thing, "");
-        }
-
-        /// <summary>
-        /// Add a Thing to the Room, sending the given entrance message.
-        /// </summary>
-        /// <param name="thing">Thing to be added</param>
-        /// <param name="message">Message to the Room</param>
-        /// <returns></returns>
-		public Room Add(Thing thing, string message)
-		{
-			if(message != null)
-			{
-                SendMessage(message);
-            }
-
-			if (thing is Player)
-				Display((Player)thing);
-
-			Contents.Add(thing);
-			return this;
-		}
-
-        /// <summary>
-        /// Remove a Thing from the Room, sending no messages.
-        /// </summary>
-        /// <param name="thing">Thing to be removed</param>
-        /// <returns></returns>
-        public Room Remove(Thing thing)
-        {
-            return Remove(thing, "");
-        }
-
-        /// <summary>
-        /// Remove a Thing from the Room, sending the given exit message.
-        /// </summary>
-        /// <param name="thing">Thing to be removed</param>
-        /// <param name="message">Message to the room</param>
-        /// <returns></returns>
-        public Room Remove(Thing thing, string message)
-		{
-			if (message != null)
-			{
-                SendMessage(message);
-			}
-
-			Contents.Remove(thing);
-			return this;
-		}
-
-        /// <summary>
+         /// <summary>
         /// Get a Thing from the room with the provided Type (Mob, Player, etc.) that matches Name.
         /// </summary>
         /// <param name="reference">The Type to search for (Mob, Player, etc.)</param>

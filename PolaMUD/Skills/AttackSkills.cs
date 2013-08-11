@@ -464,7 +464,7 @@ namespace PolaMUD.Affects
 
         public override void TickMethod()
         {
-            Afflicted.Room.SendMessage(Afflicted.Name + " suffers from wounds (" + (int)Parameters[0] + ")\n\r", "dupe");
+            ((Room)Afflicted.Location).SendMessage(Afflicted.Name + " suffers from wounds (" + (int)Parameters[0] + ")\n\r", "dupe");
             Combat.Damage(Owner, Afflicted, (int)Parameters[0]);
         }
     }
@@ -486,7 +486,7 @@ namespace PolaMUD.Affects
 
         public override void TickMethod()
         {
-            Afflicted.Room.SendMessage(Afflicted.Name + " is on fire! (" + (int)Parameters[0] + ")\n\r", "dupe");
+            ((Room)Afflicted.Location).SendMessage(Afflicted.Name + " is on fire! (" + (int)Parameters[0] + ")\n\r", "dupe");
             Combat.Damage(Owner, Afflicted, (int)Parameters[0]);
         }
     }
@@ -503,7 +503,7 @@ namespace PolaMUD.Affects
 		public Freezing(Mob afflicted, Mob owner, int duration)
 		{
             SetAffect("freezing", afflicted, owner, TimerType.Round, duration, true, false);
-            Afflicted.Room.SendMessage(Afflicted.Name + " is enveloped in ice!\n\r", "dupe");
+            ((Room)Afflicted.Location).SendMessage(Afflicted.Name + " is enveloped in ice!\n\r", "dupe");
             Parameters = new object[] { };
 		}
 	}
@@ -520,7 +520,7 @@ namespace PolaMUD.Affects
         public Blind(Mob afflicted, Mob owner, int duration)
         {
             SetAffect("blind", afflicted, owner, TimerType.Round, duration, true, false);
-            Afflicted.Room.SendMessage(Afflicted.Name + " is blinded!\n\r", "dupe");
+            ((Room)Afflicted.Location).SendMessage(Afflicted.Name + " is blinded!\n\r", "dupe");
             Parameters = new object[] { };
         }
     }
@@ -538,7 +538,7 @@ namespace PolaMUD.Affects
         {
             SetAffect("plague", afflicted, owner, TimerType.Round, duration, true, false);
             Parameters = new object[] { tickdamage };
-            Afflicted.Room.SendMessage(Afflicted.Name + "'s skin erupts in sores! (" + (int)Parameters[0] + ")\n\r", "dupe");
+            ((Room)Afflicted.Location).SendMessage(Afflicted.Name + "'s skin erupts in sores! (" + (int)Parameters[0] + ")\n\r", "dupe");
         }
 
         public override void TickMethod()
@@ -560,7 +560,7 @@ namespace PolaMUD.Affects
         {
             SetAffect("poison", afflicted, owner, TimerType.Round, duration, true, false);
             Parameters = new object[] { tickdamage };
-            Afflicted.Room.SendMessage(Afflicted.Name + " shivers and looks ill. (" + (int)Parameters[0] + ")\n\r", "dupe");
+            ((Room)Afflicted.Location).SendMessage(Afflicted.Name + " shivers and looks ill. (" + (int)Parameters[0] + ")\n\r", "dupe");
         }
 
         public override void TickMethod()

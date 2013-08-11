@@ -120,6 +120,7 @@
     <Compile Include="Mobs\MobAI.cs" />
     <Compile Include="Mobs\Quest.cs" />
     <Compile Include="Mobs\RaceType.cs" />
+    <Compile Include="MovableThing.cs" />
     <Compile Include="Parser\Argument.cs" />
     <Compile Include="Skills\AttackSkills.cs" />
     <Compile Include="Skills\HealingSkills.cs" />
@@ -204,6 +205,9 @@
     <Content Include="00_TestData\limbo.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Mobs\Events\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

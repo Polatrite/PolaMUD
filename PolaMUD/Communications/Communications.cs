@@ -79,9 +79,9 @@ namespace PolaMUD
             // Now we loop through the contents of the room.
             if (actor != null)
             {
-                if (actor.Room != null && actor.Room.Contents != null)
+                if (((Room)actor.Location) != null && ((Room)actor.Location).Contents != null)
                 {
-                    foreach (Mob audience in actor.Room.Contents)
+                    foreach (Mob audience in ((Room)actor.Location).Contents)
                     {
                         if (messageType == MessageVector.NotCharacter && audience == actor)
                             continue;
@@ -103,11 +103,11 @@ namespace PolaMUD
 
             // If the actor is null (for whatever reason) or the target is in a different room, we
             // need to display the message to the appropriate audience in the target's room.
-            if (target != null && (actor == null || target.Room.IndexNumber != actor.Room.IndexNumber))
+            if (target != null && (actor == null || ((Room)target.Location).IndexNumber != ((Room)actor.Location).IndexNumber))
             {
-                if (target.Room != null && target.Room.Contents != null)
+                if (((Room)target.Location) != null && ((Room)target.Location).Contents != null)
                 {
-                    foreach (Mob audience in target.Room.Contents)
+                    foreach (Mob audience in ((Room)target.Location).Contents)
                     {
                         if (messageType == MessageVector.NotCharacter && audience == actor)
                             continue;

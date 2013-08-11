@@ -94,7 +94,7 @@ namespace PolaMUD
             Menu = null;
 
             SendMessage("Thanks, " + Name + ". Please enjoy your stay.\n\r\n\r");
-            Room = Global.Limbo.Add(this, this.Name + " has arrived.\n\r");
+            Move(Global.Limbo);
         }
 
     }

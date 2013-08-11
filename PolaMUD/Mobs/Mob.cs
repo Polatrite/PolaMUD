@@ -9,10 +9,8 @@ using System.Runtime.Serialization;
 namespace PolaMUD
 {
     [Serializable]
-	public partial class Mob : Thing, ISerializable
+	public partial class Mob : MovableThing, ISerializable
 	{
-		public Room Room;
-
 		public int Level = 1;
 		public decimal Experience = 0;
 		public decimal ExperienceToLevel = 20;
@@ -50,8 +48,6 @@ namespace PolaMUD
         public int Mediation = 0;
         public int Persistence = 0;
         public int Aggression = 0;
-
-
 
         public int HealthRegen = 0;
         public int ManaRegen = 0;
@@ -154,44 +150,7 @@ namespace PolaMUD
             return (Mob)this.MemberwiseClone();
         }
 
-        /// <summary>
-        /// Move the Mob from current Room to destination Room, sending no messages.
-        /// </summary>
-        /// <param name="destination">The destination Room</param>
-        /// <returns></returns>
-        public bool Move(Room destination)
-        {
-            return Move(destination, "");
-        }
-
-        /// <summary>
-        /// Move the Mob from current room to destination room, sending direction-based messages 
-        /// if provided.
-        /// </summary>
-        /// <param name="destination">The destination Room</param>
-        /// <param name="direction">The direction the Mob is moving</param>
-        /// <returns></returns>
-        public bool Move(Room destination, string direction)
-        {
-            if (direction != "")
-            {
-                if (Room != null)
-                    Room.Remove(this, Name + " leaves " + direction + ".\n\r");
-                destination.Add(this, Name + " has arrived.\n\r");
-            }
-            else
-            {
-                if (Room != null)
-                    Room.Remove(this);
-                destination.Add(this);
-            }
-
-            Room = destination;
-
-            return true;
-        }
-
-        /// <summary>
+         /// <summary>
         /// Does nothing for Mobs.
         /// </summary>
         /// <param name="message"></param>
@@ -296,9 +255,7 @@ namespace PolaMUD
                 
             Affects = new List<Affect>();
 
-            Room.Remove(this, "");
-
-            Room = null;
+            Location.Contents.Remove(this);
 
             foreach (Mob mob in Global.Mobs)
             {

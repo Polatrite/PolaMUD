@@ -31,7 +31,18 @@ namespace PolaMUD
 		}
 		private string handlingName;
 
+        /// <summary>
+        /// Our current location (the Thing we are contained within)
+        /// </summary>
+        public Thing Location;
 
+        /// <summary>
+        /// A list of Things contained within this Thing.
+        /// ex. Mobs in a Room
+        /// ex. Items in a Mob
+        /// </summary>
+        public List<Thing> Contents = new List<Thing>();
+        
         public Thing()
         {
             Global.Things.Add(this);
@@ -41,5 +52,7 @@ namespace PolaMUD
         {
             Global.Things.Remove(this);
         }
+
+
     }
 }
